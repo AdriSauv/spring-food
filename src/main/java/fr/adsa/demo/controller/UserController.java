@@ -2,6 +2,7 @@ package fr.adsa.demo.controller;
 
 import fr.adsa.demo.model.User;
 import fr.adsa.demo.repository.UserRepository;
+import fr.adsa.demo.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,31 +10,15 @@ import java.util.List;
 @RestController
 public class UserController {
 
-    private UserRepository userRepository;
+    private UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+    @GetMapping("/api/users/profile")
+    public User findUserByJwt(@RequestHeader(name = "Authorization") String jwt) throws Exception {
+        return userService.findUserByJwt(jwt);
     }
 
-    @PostMapping("/users")
-    public User createUser(@RequestBody User user) {
-        User isUserExist = userRepository.findByEmail(user.getEmail());
-        if(isUserExist!=null){
-            throw new RuntimeException("user already exist with email: "+user.getEmail());
-        }
 
-        User savedUser = userRepository.save(user);
-        return savedUser;
-    }
-
-    @DeleteMapping("/users/{id}")
-    public String deleteUser(@PathVariable Long id){
-        userRepository.deleteById(id);
-        return "User deleted successfully";
-    }
-
-    @GetMapping("/users/all")
-    public List<User> getUsers(){
-        return userRepository.findAll();
-    }
 }
