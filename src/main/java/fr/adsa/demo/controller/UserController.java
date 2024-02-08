@@ -17,15 +17,12 @@ public class UserController {
 
     @PostMapping("/users")
     public User createUser(@RequestBody User user) {
+        User isUserExist = userRepository.findByEmail(user.getEmail());
+        if(isUserExist!=null){
+            throw new RuntimeException("user already exist with email: "+user.getEmail());
+        }
+
         User savedUser = userRepository.save(user);
         return savedUser;
-    }
-
-    public User findByEmail(String email) throws Exception {
-        User user = userRepository.findByEmail(email);
-        if(user!=null){
-            throw new Exception("user not found with email: "+email);
-        }
-        return user;
     }
 }
