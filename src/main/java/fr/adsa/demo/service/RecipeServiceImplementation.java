@@ -73,12 +73,12 @@ public class RecipeServiceImplementation implements RecipeService{
     }
 
     @Override
-    public Recipe likeRecipe(Long recipeId, Long userId) throws Exception {
+    public Recipe likeRecipe(Long recipeId, User user) throws Exception {
         Recipe recipe = findRecipeById(recipeId);
-        if(recipe.getLikes().contains(userId)){
-            recipe.getLikes().remove(userId);
+        if(recipe.getLikes().contains(user.getId())){
+            recipe.getLikes().remove(user.getId());
         }else{
-            recipe.getLikes().add(userId);
+            recipe.getLikes().add(user.getId());
         }
         return recipeRepository.save(recipe);
     }
