@@ -15,6 +15,10 @@ import java.util.List;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private UserRepository userRepository;
+
+    public CustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);

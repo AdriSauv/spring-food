@@ -64,7 +64,7 @@ public class AuthController {
     }
 
     //login method
-    @PostMapping("/login")
+    @PostMapping("/signin")
     public AuthResponse signInHandler(@RequestBody LoginRequest loginRequest) {
         String username = loginRequest.getEmail();
         String password = loginRequest.getPassword();
