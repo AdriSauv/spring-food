@@ -20,4 +20,12 @@ public class UserController {
         User savedUser = userRepository.save(user);
         return savedUser;
     }
+
+    public User findByEmail(String email) throws Exception {
+        User user = userRepository.findByEmail(email);
+        if(user!=null){
+            throw new Exception("user not found with email: "+email);
+        }
+        return user;
+    }
 }
