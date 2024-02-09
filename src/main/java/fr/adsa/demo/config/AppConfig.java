@@ -30,11 +30,18 @@ public class AppConfig {
     }
 
     private CorsConfigurationSource corsConfigurationSource() {
-        return request -> {
-            var cors = new org.springframework.web.cors.CorsConfiguration();
-            cors.setAllowedOrigins(java.util.List.of("http://localhost:3306"));
-            cors.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE"));
-            return cors;
+        return new CorsConfigurationSource() {
+            @Override
+            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                CorsConfiguration cfg = new CorsConfiguration();
+                cfg.setAllowedOrigins(Collections.singletonList("*"));
+                cfg.setAllowedMethods(Collections.singletonList("*"));
+                cfg.setAllowedHeaders(Collections.singletonList("*"));
+                cfg.setExposedHeaders(Collections.singletonList("*"));
+                cfg.setMaxAge(3600L);
+
+                return cfg;
+            }
         };
     }
 
